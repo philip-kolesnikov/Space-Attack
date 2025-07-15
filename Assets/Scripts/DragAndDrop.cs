@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
 {
+
+    private Fruit fruit;
     private Camera cam;
     private Vector3 dragOffset;
     public bool draggable;
+
+    private GameManager gm;
 
     public float followSpeed;
 
     private void Awake()
     {
-
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         cam = Camera.main;
+        fruit = GetComponent<Fruit>();
     }
 
     private void OnMouseUp()
@@ -25,6 +30,7 @@ public class DragAndDrop : MonoBehaviour
     //function that controls when the mouse button is down
     private void OnMouseDown()
     {
+        
         dragOffset = transform.position - getMousePos();
     }
 
@@ -34,6 +40,7 @@ public class DragAndDrop : MonoBehaviour
         //if we can drag object
         if (draggable)
         {
+            
             //set the posistion of the object to the position of the mouse
             //transform.position = getMousePos() + dragOffset;
             transform.position = Vector3.MoveTowards(transform.position, getMousePos() + dragOffset, followSpeed * Time.deltaTime);
@@ -56,11 +63,15 @@ public class DragAndDrop : MonoBehaviour
         {
             draggable = false;
         }
+        fruit.gravityOn();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.CompareTag("Box") && draggable == true)
+        {
+            Drop();
+        }
     }
 
 }
