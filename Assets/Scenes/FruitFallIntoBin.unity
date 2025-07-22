@@ -799,7 +799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitList:
   - {fileID: 8069216269699622864, guid: 26dddb1e841544d489b41de348117b21, type: 3}
-  SpawnRate: 5
+  SpawnRate: 3
   SpawnPoint: {fileID: 1813218095}
 --- !u!4 &1619113277
 Transform:

@@ -40,9 +40,6 @@ public class DragAndDrop : MonoBehaviour
         //if we can drag object
         if (draggable)
         {
-            
-            //set the posistion of the object to the position of the mouse
-            //transform.position = getMousePos() + dragOffset;
             transform.position = Vector3.MoveTowards(transform.position, getMousePos() + dragOffset, followSpeed * Time.deltaTime);
         }
         //set the position of object to mouses position
@@ -62,6 +59,7 @@ public class DragAndDrop : MonoBehaviour
         if (draggable)
         {
             draggable = false;
+            gm.SpawnNewFruit();
         }
         fruit.gravityOn();
     }

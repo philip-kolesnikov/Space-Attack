@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject SpawnPoint;
 
+    private bool mergingFruit = false;
+
+    private GameObject firstFruit;
+
+    private GameObject secondFruit;
+
     void Start()
     {
         upcomingFruitIndex = 0;
@@ -33,6 +39,17 @@ public class GameManager : MonoBehaviour
         fruitClone.GetComponent<DragAndDrop>().draggable = true;
 
         upcomingFruitIndex = 0;
+    }
+
+    public void FruitCollision(GameObject first, GameObject second)
+    {
+        if (first.GetComponent<Fruit>().fruitIndex != fruitList.Length - 1 && mergingFruit == false)
+        {
+            firstFruit = first;
+            secondFruit = second;
+            mergingFruit = true;
+        }
+        //CREATE NEXT FRUIT IN CYCLE
     }
     
 }

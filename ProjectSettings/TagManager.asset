@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - GameManager
+  - Fruit
   layers:
   - Default
   - TransparentFX
