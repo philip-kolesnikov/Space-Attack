@@ -48,6 +48,8 @@ public class Fruit : MonoBehaviour
         {
             SetCombined(true);
             collision.gameObject.GetComponent<Fruit>().SetCombined(true);
+            gm.FruitCollision(gameObject, collision.gameObject);
+
             Debug.Log("Hello World, I am");
         }
     }
