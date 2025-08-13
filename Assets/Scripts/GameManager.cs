@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     private UiManager Ui;
 
+    private bool gameRunning;
+
+
     [SerializeField]
     Dictionary<string, float> ScoreDictionary = new Dictionary<string, float>()
     {
@@ -37,12 +41,15 @@ public class GameManager : MonoBehaviour
     {
         Ui = GameObject.FindGameObjectWithTag("Ui").GetComponent<UiManager>();
         upcomingFruitIndex = 0;
-        SpawnNewFruit();
+        //SpawnNewFruit();
     }
 
     public void SpawnNewFruit()
     {
-        StartCoroutine("CreateNewFruit");
+        if (gameRunning)
+        {
+            StartCoroutine("CreateNewFruit");
+        }
     }
 
     IEnumerator CreateNewFruit()
@@ -52,8 +59,8 @@ public class GameManager : MonoBehaviour
         GameObject fruitClone = Instantiate(fruitList[upcomingFruitIndex], SpawnPoint.transform.position, Quaternion.identity);
 
         fruitClone.GetComponent<DragAndDrop>().draggable = true;
-
-        upcomingFruitIndex = 0;
+        int randomNextFruit = Random.Range(0, 4);
+        upcomingFruitIndex = randomNextFruit;
     }
 
     public void FruitCollision(GameObject first, GameObject second)
@@ -87,6 +94,8 @@ public class GameManager : MonoBehaviour
         //figure out which fruit is the next fruit
         int nextFruitIndex = getNextFruitIndex();
         string oldFruitName = firstFruit.name;
+        //checkWin
+        CheckWin(nextFruitIndex);
         //get rid of the 2 combined fruits
         firstFruit.GetComponent<Fruit>().DestroyFruit();
         secondFruit.GetComponent<Fruit>().DestroyFruit();
@@ -109,6 +118,34 @@ public class GameManager : MonoBehaviour
         string cleanName = fruitName.Remove(fruitName.Length - 7);
         float points = ScoreDictionary[cleanName];
         score += points;
+        Ui.UpdateScoreText(score);
+    }
+
+    private void CheckWin(int fruitIndex)
+    {
+        if (fruitIndex == fruitList.Length - 1)
+        {
+            Ui.ToggleWinPanel();
+        }
+    }
+
+    public void GameOver()
+    {
+        if (gameRunning)
+        {
+            Ui.ToggleGameOverPanel();
+            SetGameRunning(false);
+        }
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SetGameRunning(bool value)
+    {
+        gameRunning = value;
     }
 
 }

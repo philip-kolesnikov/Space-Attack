@@ -8,6 +8,8 @@ TagManager:
   - GameManager
   - Fruit
   - Ui
+  - DangerZone
+  - InstantGameOver
   layers:
   - Default
   - TransparentFX
